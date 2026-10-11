@@ -1,0 +1,98 @@
+/* Hello World */
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #09090b;
+  --brand-accent: #6430fa;
+  --brand-prx-purple: #7607fd;
+  --brand-prx-cyan: #0bd9fd;
+  font-family: var(--font-sans, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+}
+
+::selection {
+  background-color: var(--brand-accent, #6430fa);
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background-color: var(--brand-accent, #6430fa);
+  color: #ffffff;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #ffffff;
+}
+
+body {
+  background-color: #ffffff;
+  color: #09090b;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* Cursores em todos os controles interativos conforme Modelo Padrão */
+button,
+a,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+input[type="checkbox"],
+label[for],
+[role="button"],
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+/* Scrollbar refinada e arquitetônica */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f4f4f5;
+}
+::-webkit-scrollbar-thumb {
+  background: #d4d4d8;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1aa;
+}
+
+/* Ocultar barra de rolagem em elementos com overflow horizontal */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Estilos de Impressão Profissional para Propostas em PDF */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt;
+  }
+  aside,
+  button,
+  .no-print {
+    display: none !important;
+  }
+  .print-avoid-break {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .print-page-break {
+    break-before: page;
+    page-break-before: always;
+  }
+  header {
+    position: static !important;
+    border-bottom: 2px solid var(--brand-accent, #6430fa) !important;
+  }
+}
