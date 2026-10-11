@@ -9,7 +9,7 @@ Desenvolvido para hospedar todas as propostas comerciais e de parcerias estraté
 ## ⚡ Principais Características
 
 - **Zero novos projetos na Vercel**: Todas as propostas rodam no mesmo projeto através de roteamento por subdomínio via Next.js Middleware.
-- **Animação de Entrada Cinematográfica**: Introdução animada com a logo oficial da PRX em SVG, transição com `✕` e logo da marca parceira em SVG.
+- **Animação de Entrada Cinematográfica**: palco escuro no estilo gs.prx.app.br, símbolo PRX montado e letras reveladas por máscara (teste.prx.app.br), conector `✕` em estilhaços e linha de progresso (viraweb.dev.br), saída em cortina e título do hero revelado palavra a palavra.
 - **Modelo Padrão Rigoroso**:
   - Fundo branco puro (`#ffffff`) por padrão.
   - Seleção de texto na cor de destaque da marca (`::selection`).
@@ -17,7 +17,7 @@ Desenvolvido para hospedar todas as propostas comerciais e de parcerias estraté
   - Rolagem inercial suave Lenis sincronizada no loop RAF com GSAP ScrollTrigger.
   - Responsividade absoluta multi-dispositivo (touch targets >= 48px, zero transbordamento horizontal).
   - Assinatura comentada `// Hello World` na primeira linha de todos os arquivos.
-- **Rodapé Institucional Obrigatório**: "Desenvolvido por Viral Web", com a logo da Viral Web e link direto para `https://viralweb.online`.
+- **Rodapé Institucional Obrigatório**: "Desenvolvido por ViraWeb", com a logo horizontal da ViraWeb e link direto para `https://viraweb.dev.br`.
 - **Favicon Oficial**: Ícone SVG da PRX (`icon.svg`).
 - **Geração de PDF Instantânea**: Botão "Salvar em PDF" com regras `@media print` otimizadas para geração limpa de documentos comerciais.
 - **Integração WhatsApp**: Botão de aprovação direta com celebração de confetes e mensagem pré-configurada.
@@ -43,9 +43,9 @@ Propostas/
 │   │   ├── prx/
 │   │   │   ├── PrxLogo.tsx           # Logo SVG completa e símbolo da PRX
 │   │   │   └── PrxPartnerIntro.tsx   # Animação de entrada PRX ✕ Marca Parceira
-│   │   ├── viralweb/
-│   │   │   └── ViralWebLogo.tsx      # Logo SVG da Viral Web com link oficial
-│   │   ├── Footer.tsx                # Rodapé "Desenvolvido por Viral Web"
+│   │   ├── viraweb/
+│   │   │   └── ViraWebLogo.tsx       # Logo horizontal SVG da ViraWeb com link oficial
+│   │   ├── Footer.tsx                # Rodapé "Desenvolvido por ViraWeb"
 │   │   ├── Header.tsx                # Cabeçalho com ações rápidas e WhatsApp
 │   │   ├── ProposalView.tsx          # Visualizador principal da proposta
 │   │   └── SmoothScrollProvider.tsx  # Lenis + GSAP ScrollTrigger RAF

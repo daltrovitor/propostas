@@ -1,5 +1,6 @@
 // Hello World
 import { ProposalData } from "./types";
+import { PRX_APPROVAL_PHONE } from "./constants";
 
 export const juistreetProposal: ProposalData = {
   subdomain: "juistreet",
@@ -9,7 +10,11 @@ export const juistreetProposal: ProposalData = {
     logoWidth: 592,
     logoHeight: 109,
     logoShape: "wordmark",
+    logoPngOnDark: "/logos/juistreet-white.png",
     tagline: "Juice bar & wellness",
+  },
+  intro: {
+    tagline: "Wellness que entra na rotina",
   },
   accentColor: "#15803d", // Verde Floresta / Wellness e alimentação saudável
   meta: {
@@ -237,7 +242,7 @@ export const juistreetProposal: ProposalData = {
     signature: "PRX — the next pays.",
   },
   whatsapp: {
-    phone: "5562984638578",
+    phone: PRX_APPROVAL_PHONE,
     defaultMessage: "Olá! Gostaria de avançar na proposta de parceria PRX ✕ Juistreet Goiânia.",
   },
 };

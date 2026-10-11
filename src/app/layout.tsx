@@ -1,6 +1,6 @@
 // Hello World
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Montserrat, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
 
@@ -9,6 +9,15 @@ const jakarta = Plus_Jakarta_Sans({
   variable: "--font-sans",
   display: "swap",
   weight: ["400", "500", "600", "700", "800"],
+});
+
+// Fonte da assinatura ViraWeb no rodapé (abaixo da dobra: sem preload)
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+  display: "swap",
+  weight: ["300", "700"],
+  preload: false,
 });
 
 export const viewport: Viewport = {
@@ -21,7 +30,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "PRX · Propostas de Parceria Estratégica",
   description:
-    "Plataforma unificada de propostas comerciais e parcerias estratégicas do ecossistema PRX. Desenvolvido por Viral Web.",
+    "Plataforma unificada de propostas comerciais e parcerias estratégicas do ecossistema PRX. Desenvolvido por ViraWeb.",
   icons: {
     icon: "/icon.svg",
     shortcut: "/icon.svg",
@@ -43,7 +52,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${jakarta.variable} scroll-smooth`}
+      className={`${jakarta.variable} ${montserrat.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       <body

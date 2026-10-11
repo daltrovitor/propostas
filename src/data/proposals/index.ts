@@ -19,6 +19,7 @@ export const proposalsRegistry: Record<string, ProposalData> = {
   juistreet: juistreetProposal,
   rauppwake: rauppWakeProposal,
   raupp: rauppWakeProposal,
+  wake: rauppWakeProposal,
 };
 
 /**

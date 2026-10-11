@@ -81,11 +81,17 @@ export interface ProposalData {
     name: string;
     logoSvg?: string;
     logoPng?: string; // Imagem raster da logo (PNG ou WebP) servida a partir de /public
+    logoPngOnDark?: string; // Versão clara da logo para a abertura em fundo escuro
     logoWidth?: number; // Dimensões intrínsecas da imagem (evita layout shift)
     logoHeight?: number;
     logoShape?: "wordmark" | "badge"; // "badge" para logos quadradas/circulares
     website?: string;
     tagline?: string;
+  };
+  intro?: {
+    title?: string; // Título da abertura (padrão: "<Marca> ✕ PRX")
+    tagline?: string; // Linha mono abaixo do título
+    quote?: string; // Frase de efeito (padrão: hero.headline)
   };
   accentColor: string; // Cor principal de destaque da marca (ex: #7607fd, #8e1529, #c59b27, etc.)
   accentColorSecondary?: string;

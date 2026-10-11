@@ -19,7 +19,7 @@ Texto e escopo da proposta:
 Logo da marca:
 [Cole aqui o código SVG da logo, ou o link da imagem, ou me peça para desenhar/procurar a logo em SVG]
 
-Lembre-se de utilizar o Modelo Padrão, a animação de entrada com a logo em SVG da PRX ✕ [Nome da Empresa], o footer 'Desenvolvido por Viral Web' com a logo e o favicon da PRX.
+Lembre-se de utilizar o Modelo Padrão, a animação de entrada com a logo em SVG da PRX ✕ [Nome da Empresa], o footer 'Desenvolvido por ViraWeb' com a logo horizontal e o favicon da PRX.
 ```
 
 ---
@@ -57,7 +57,7 @@ Coloque a animação de entrada PRX ✕ Albert Einstein e aplique o modelo padr�
 1. **Cria os dados da proposta** em `src/data/proposals/[subdominio].ts`.
 2. **Registra o novo subdomínio** em `src/data/proposals/index.ts`.
 3. **Deduz ou aplica a cor de destaque principal** conforme a natureza do cliente (ex: Dourado para luxo, Azul para tech, Terracota para engenharia, etc.).
-4. **Gera a animação de entrada** (PRX SVG ✕ Marca SVG com revelação cinematográfica).
+4. **Gera a animação de entrada** (palco escuro gs.prx, montagem do símbolo PRX, conector ✕ em estilhaços e saída em cortina). Para logos escuras, gera também uma versão branca em `clientBrand.logoPngOnDark`.
 5. **Aplica o Modelo Padrão**:
    - Fundo branco puro (`#ffffff`)
    - Seleção de texto na cor de destaque da marca (`::selection`)
@@ -66,7 +66,7 @@ Coloque a animação de entrada PRX ✕ Albert Einstein e aplique o modelo padr�
    - Sem balões sem sentido, sem gradientes exagerados, sem pretextos antes do título principal
    - Assinatura comentada `// Hello World` na primeira linha
    - Botão para Aprovação direta via WhatsApp e botão para Salvar Proposta em PDF (`window.print()`)
-   - Rodapé com "Desenvolvido por Viral Web", logo e link para `https://viralweb.online`
+   - Rodapé com "Desenvolvido por ViraWeb", logo horizontal e link para `https://viraweb.dev.br`
    - Favicon oficial da PRX
 6. **Executa o `git add`, `git commit` e `git push`** para a Vercel publicar automaticamente.
 

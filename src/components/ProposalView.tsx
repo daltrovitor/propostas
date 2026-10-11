@@ -27,6 +27,7 @@ function pillarsGridClass(count: number): string {
 
 export function ProposalView({ proposal }: ProposalViewProps) {
   const [introFinished, setIntroFinished] = useState(false);
+  const [heroRevealing, setHeroRevealing] = useState(false);
   const hasChapters = !!proposal.chapters && proposal.chapters.length > 0;
   const hasScope = !!proposal.scope && proposal.scope.length > 0;
   const detailsAnchor = hasScope ? "#escopo" : "#proposta";
@@ -54,11 +55,15 @@ export function ProposalView({ proposal }: ProposalViewProps) {
         <PrxPartnerIntro
           partnerName={proposal.clientBrand.name}
           partnerLogoSvg={proposal.clientBrand.logoSvg}
-          partnerLogoPng={proposal.clientBrand.logoPng}
+          partnerLogoPng={proposal.clientBrand.logoPngOnDark ?? proposal.clientBrand.logoPng}
           partnerLogoWidth={proposal.clientBrand.logoWidth}
           partnerLogoHeight={proposal.clientBrand.logoHeight}
           partnerLogoShape={proposal.clientBrand.logoShape}
-          accentColor={proposal.accentColor}
+          partnerCaption={proposal.clientBrand.tagline}
+          title={proposal.intro?.title}
+          tagline={proposal.intro?.tagline}
+          quote={proposal.intro?.quote ?? proposal.hero.headline}
+          onExitStart={() => setHeroRevealing(true)}
           onComplete={() => setIntroFinished(true)}
         />
       )}
@@ -107,7 +112,17 @@ export function ProposalView({ proposal }: ProposalViewProps) {
                   </div>
 
                   <h1 className="mt-6 text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-zinc-950 leading-[1.08] text-balance">
-                    {proposal.hero.headline}
+                    {proposal.hero.headline.split(" ").map((word, idx) => (
+                      <React.Fragment key={idx}>
+                        {idx > 0 && " "}
+                        <span
+                          className={`hero-word inline-block ${heroRevealing ? "is-revealing" : ""}`}
+                          style={{ "--d": `${120 + idx * 45}ms` } as React.CSSProperties}
+                        >
+                          {word}
+                        </span>
+                      </React.Fragment>
+                    ))}
                   </h1>
 
                   <p className="mt-6 text-base sm:text-lg text-zinc-600 leading-relaxed max-w-2xl text-pretty">
@@ -531,7 +546,7 @@ export function ProposalView({ proposal }: ProposalViewProps) {
           </section>
         </main>
 
-        {/* Rodapé Mandatório Desenvolvido por Viral Web */}
+        {/* Rodapé Mandatório Desenvolvido por ViraWeb */}
         <Footer partnerName={proposal.clientBrand.name} />
       </div>
     </>

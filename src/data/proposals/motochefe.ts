@@ -1,5 +1,6 @@
 // Hello World
 import { ProposalData } from "./types";
+import { PRX_APPROVAL_PHONE } from "./constants";
 
 export const motoChefeProposal: ProposalData = {
   subdomain: "motochef",
@@ -9,7 +10,11 @@ export const motoChefeProposal: ProposalData = {
     logoWidth: 478,
     logoHeight: 193,
     logoShape: "wordmark",
+    logoPngOnDark: "/logos/moto-chefe-white.png",
     tagline: "Mobilidade elétrica",
+  },
+  intro: {
+    tagline: "A independência começa em movimento",
   },
   accentColor: "#c2410c", // Laranja de Engenharia / Mobilidade em movimento
   meta: {
@@ -255,7 +260,7 @@ export const motoChefeProposal: ProposalData = {
     signature: "PRX — the next pays.",
   },
   whatsapp: {
-    phone: "5562984638578",
+    phone: PRX_APPROVAL_PHONE,
     defaultMessage: "Olá! Gostaria de avançar na proposta de parceria PRX ✕ Moto Chefe Brasil.",
   },
 };

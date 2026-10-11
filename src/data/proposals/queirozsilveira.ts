@@ -1,5 +1,6 @@
 // Hello World
 import { ProposalData } from "./types";
+import { PRX_APPROVAL_PHONE } from "./constants";
 
 export const queirozSilveiraProposal: ProposalData = {
   subdomain: "queirozsilveira",
@@ -7,6 +8,9 @@ export const queirozSilveiraProposal: ProposalData = {
     name: "Construtora Queiroz Silveira",
     tagline: "Engenharia e Incorporação de Alto Padrão",
     website: "https://queirozsilveira.com.br",
+  },
+  intro: {
+    title: "Queiroz Silveira ✕ PRX",
   },
   accentColor: "#8e1529", // Vinho Nobre Arquitetônico
   accentColorSecondary: "#0d233e", // Navy Corporativo
@@ -161,7 +165,7 @@ export const queirozSilveiraProposal: ProposalData = {
     guaranteeText: "Sem fidelidade contratual abusiva. Teste de conformidade garantido.",
   },
   whatsapp: {
-    phone: "5562984638578",
+    phone: PRX_APPROVAL_PHONE,
     defaultMessage:
       "Olá! Gostaria de formalizar a Proposta de Parceria Estratégica da Construtora Queiroz Silveira com a PRX.",
   },

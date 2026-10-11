@@ -1,6 +1,6 @@
 // Hello World
 import React from "react";
-import { ViralWebLogo } from "./viralweb/ViralWebLogo";
+import { ViraWebLogo } from "./viraweb/ViraWebLogo";
 import { PrxLogo } from "./prx/PrxLogo";
 
 interface FooterProps {
@@ -23,10 +23,10 @@ export function Footer({ partnerName }: FooterProps) {
             </span>
           </div>
 
-          {/* Centro / Direita: Mandatório 'Desenvolvido por Viral Web' + Logo + Link */}
+          {/* Centro / Direita: Mandatório 'Desenvolvido por ViraWeb' + Logo horizontal + Link */}
           <div className="flex flex-wrap items-center justify-center md:justify-end gap-2 text-xs">
             <span className="text-zinc-500 font-normal">Desenvolvido por</span>
-            <ViralWebLogo href="https://viralweb.online" className="h-5 w-auto" />
+            <ViraWebLogo />
           </div>
         </div>
 
@@ -46,12 +46,12 @@ export function Footer({ partnerName }: FooterProps) {
             </a>
             <span>•</span>
             <a
-              href="https://viralweb.online"
+              href="https://viraweb.dev.br"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-zinc-700 transition-colors cursor-pointer"
             >
-              viralweb.online
+              viraweb.dev.br
             </a>
           </div>
         </div>

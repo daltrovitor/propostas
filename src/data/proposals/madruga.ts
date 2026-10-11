@@ -1,5 +1,6 @@
 // Hello World
 import { ProposalData } from "./types";
+import { PRX_APPROVAL_PHONE } from "./constants";
 
 export const madrugaProposal: ProposalData = {
   subdomain: "madruga",
@@ -9,7 +10,11 @@ export const madrugaProposal: ProposalData = {
     logoWidth: 345,
     logoHeight: 363,
     logoShape: "badge",
-    tagline: "Desde 1995",
+    tagline: "Unidade Marista",
+  },
+  intro: {
+    title: "Açaí do Madruga ✕ PRX",
+    tagline: "Meu açaí no cardápio",
   },
   accentColor: "#9d1460", // Magenta Açaí (extraído da logo)
   meta: {
@@ -158,7 +163,7 @@ export const madrugaProposal: ProposalData = {
     signature: "PRX — the next pays.",
   },
   whatsapp: {
-    phone: "5562984638578",
+    phone: PRX_APPROVAL_PHONE,
     defaultMessage:
       "Olá! Gostaria de avançar na proposta de parceria PRX PASS ✕ Açaí do Madruga Marista.",
   },

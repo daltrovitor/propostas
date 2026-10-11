@@ -71,6 +71,124 @@ label[for],
   scrollbar-width: none;
 }
 
+/* ==========================================================================
+   Abertura PRX ✕ Marca
+   Palco escuro (gs.prx) + montagem do símbolo e cortina (teste.prx)
+   + estilhaços, letras e linha de progresso (viraweb.dev.br)
+   ========================================================================== */
+:root {
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+html.intro-lock {
+  overflow: hidden;
+}
+
+@keyframes pi-rise {
+  from { transform: translateY(110%); }
+  to { transform: none; }
+}
+@keyframes pi-fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pi-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes pi-glow {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pi-piece-left {
+  from { opacity: 0; transform: translateX(-120px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pi-piece-right {
+  from { opacity: 0; transform: translateX(120px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pi-symbol-shift {
+  from { transform: translateX(262px); }
+  to { transform: none; }
+}
+@keyframes pi-letter {
+  from { transform: translateY(118px); }
+  to { transform: none; }
+}
+@keyframes pi-shard {
+  from { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(0.4); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pi-logo-in {
+  from { opacity: 0; transform: translateY(22px) scale(0.94); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pi-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes pi-wipe {
+  from { clip-path: inset(0 0 0 0); }
+  to { clip-path: inset(0 0 100% 0); }
+}
+@keyframes pi-lift {
+  to { opacity: 0; transform: translateY(-56px); }
+}
+@keyframes hero-word-in {
+  from { opacity: 0; transform: translateY(0.45em); clip-path: inset(0 0 100% 0); }
+  to { opacity: 1; transform: none; clip-path: inset(-25% -5% -25% -5%); }
+}
+
+.pi {
+  animation-duration: 0.9s;
+  animation-timing-function: var(--ease-out-expo);
+  animation-fill-mode: both;
+  animation-delay: var(--d, 0ms);
+}
+.pi-rise { animation-name: pi-rise; }
+.pi-fade-up { animation-name: pi-fade-up; }
+.pi-fade { animation-name: pi-fade; }
+.pi-glow { animation-name: pi-glow; animation-duration: 1.6s; }
+.pi-logo-in { animation-name: pi-logo-in; animation-duration: 1s; }
+.pi-piece-left { animation-name: pi-piece-left; animation-duration: 0.8s; }
+.pi-piece-right { animation-name: pi-piece-right; animation-duration: 0.8s; }
+.pi-symbol-shift { animation-name: pi-symbol-shift; animation-duration: 0.85s; animation-timing-function: var(--ease-in-out-quart); }
+.pi-letter { animation-name: pi-letter; animation-duration: 0.75s; }
+.pi-shard {
+  animation-name: pi-shard;
+  animation-duration: 0.95s;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+.pi-progress {
+  animation-name: pi-progress;
+  animation-timing-function: var(--ease-in-out-quart);
+  transform-origin: 0 50%;
+}
+
+.prx-intro.is-exiting {
+  animation: pi-wipe 0.9s var(--ease-in-out-quart) forwards;
+}
+.prx-intro.is-exiting .prx-intro-stage {
+  animation: pi-lift 0.9s var(--ease-in-out-quart) forwards;
+}
+
+.hero-word.is-revealing {
+  animation: hero-word-in 0.85s var(--ease-out-expo) both;
+  animation-delay: var(--d, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prx-intro,
+  .prx-intro *,
+  .hero-word.is-revealing {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+  }
+}
+
 /* Estilos de Impressão Profissional para Propostas em PDF */
 @media print {
   body {

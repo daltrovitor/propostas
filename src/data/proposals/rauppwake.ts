@@ -1,5 +1,6 @@
 // Hello World
 import { ProposalData } from "./types";
+import { PRX_APPROVAL_PHONE } from "./constants";
 
 export const rauppWakeProposal: ProposalData = {
   subdomain: "rauppwake",
@@ -9,7 +10,11 @@ export const rauppWakeProposal: ProposalData = {
     logoWidth: 303,
     logoHeight: 282,
     logoShape: "badge",
+    logoPngOnDark: "/logos/raupp-wake-white.webp",
     tagline: "Wake Park",
+  },
+  intro: {
+    tagline: "PRX OFFLINE — Wake Edition",
   },
   accentColor: "#0e345b", // Azul Navy Raupp (extraído da logo)
   meta: {
@@ -336,7 +341,7 @@ export const rauppWakeProposal: ProposalData = {
     signature: "PRX — the next pays.",
   },
   whatsapp: {
-    phone: "5562984638578",
+    phone: PRX_APPROVAL_PHONE,
     defaultMessage: "Olá! Gostaria de avançar na proposta de parceria PRX ✕ Raupp Wake.",
   },
 };

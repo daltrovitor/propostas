@@ -1,5 +1,6 @@
 // Hello World
 import { ProposalData } from "./types";
+import { PRX_APPROVAL_PHONE } from "./constants";
 
 export const boticarioProposal: ProposalData = {
   subdomain: "boticario",
@@ -7,6 +8,9 @@ export const boticarioProposal: ProposalData = {
     name: "Grupo Boticário",
     tagline: "Beleza, Inovação e Sustentabilidade",
     website: "https://grupoboticario.com.br",
+  },
+  intro: {
+    title: "Grupo Boticário ✕ PRX",
   },
   accentColor: "#b48328", // Dourado Nobre / Alta Perfumaria
   accentColorSecondary: "#1f2937",
@@ -159,7 +163,7 @@ export const boticarioProposal: ProposalData = {
     guaranteeText: "Cancelamento livre a qualquer momento com aviso prévio de 30 dias.",
   },
   whatsapp: {
-    phone: "5562984638578",
+    phone: PRX_APPROVAL_PHONE,
     defaultMessage:
       "Olá! Gostaria de avançar na Proposta de Parceria Estratégica do Grupo Boticário com a PRX.",
   },
