@@ -157,7 +157,7 @@ function ContentBlock({
               <React.Fragment key={item.title}>
                 {idx > 0 && (
                   <span className="font-light" style={{ color: accentColor }}>
-                    +
+                    {block.separator ?? "+"}
                   </span>
                 )}
                 <span>{item.title}</span>
@@ -223,6 +223,59 @@ function ContentBlock({
               </li>
             ))}
           </ol>
+        </div>
+      );
+
+    case "table":
+      return (
+        <div className="print-avoid-break">
+          <table className="w-full text-left border-collapse">
+            {block.caption && <caption className="sr-only">{block.caption}</caption>}
+            <thead className="hidden sm:table-header-group">
+              <tr className="border-b-2" style={{ borderColor: accentColor }}>
+                {block.columns.map((column) => (
+                  <th
+                    key={column}
+                    scope="col"
+                    className="py-3 pr-4 text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500"
+                  >
+                    {column}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="block sm:table-row-group space-y-3 sm:space-y-0">
+              {block.rows.map((row) => (
+                <tr
+                  key={row[0]}
+                  className="block sm:table-row p-4 sm:p-0 rounded-md sm:rounded-none border sm:border-0 sm:border-b border-zinc-200/80 bg-zinc-50/60 sm:bg-transparent"
+                >
+                  {row.map((cell, cellIdx) =>
+                    cellIdx === 0 ? (
+                      <th
+                        key={cellIdx}
+                        scope="row"
+                        className="block sm:table-cell sm:py-4 sm:pr-4 font-mono text-sm font-bold whitespace-nowrap"
+                        style={{ color: accentColor }}
+                      >
+                        {cell}
+                      </th>
+                    ) : (
+                      <td
+                        key={cellIdx}
+                        data-label={block.columns[cellIdx]}
+                        className={`block sm:table-cell mt-2 sm:mt-0 sm:py-4 sm:pr-4 text-sm sm:text-base before:block before:mb-0.5 before:text-[11px] before:font-mono before:uppercase before:tracking-wider before:text-zinc-500 before:content-[attr(data-label)] sm:before:content-none ${
+                          cellIdx === 1 ? "font-semibold text-zinc-950" : "text-zinc-600"
+                        }`}
+                      >
+                        {cell}
+                      </td>
+                    )
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       );
 

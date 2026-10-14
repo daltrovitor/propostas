@@ -49,7 +49,14 @@ export type ProposalContentBlock =
   | { type: "list"; items: string[]; intro?: string }
   | { type: "tags"; items: string[]; intro?: string; caption?: string }
   | { type: "facts"; items: ProposalMetric[]; label?: string }
-  | { type: "formula"; items: ProposalTitledItem[]; intro?: string; caption?: string }
+  | {
+      type: "formula";
+      items: ProposalTitledItem[];
+      intro?: string;
+      caption?: string;
+      separator?: "+" | "→";
+    }
+  | { type: "table"; columns: string[]; rows: string[][]; caption?: string }
   | { type: "steps"; items: ProposalTitledItem[]; title?: string; intro?: string }
   | { type: "cards"; items: ProposalCard[] }
   | { type: "feature"; title: string; label?: string; description?: string; caption?: string };
