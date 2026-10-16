@@ -137,10 +137,8 @@ export function PrxPartnerIntro({
       <div className="prx-intro-stage relative z-10 flex h-full w-full flex-col items-center justify-center px-5 sm:px-6 py-20 text-center">
         <div className="w-full max-w-5xl flex flex-col items-center">
           {/* Sobretítulo revelado letra a letra */}
-          <p
-            aria-label={EYEBROW}
-            className="text-[10px] sm:text-sm font-mono font-semibold uppercase tracking-[0.25em] sm:tracking-[0.35em] text-slate-400"
-          >
+          <p className="text-[10px] sm:text-sm font-mono font-semibold uppercase tracking-[0.25em] sm:tracking-[0.35em] text-slate-400">
+            <span className="sr-only">{EYEBROW}</span>
             {EYEBROW.split(" ").map((word, wordIdx, words) => {
               const offset = words.slice(0, wordIdx).join(" ").length + (wordIdx > 0 ? 1 : 0);
               return (

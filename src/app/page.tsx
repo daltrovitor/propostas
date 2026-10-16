@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getAllProposals } from "@/data/proposals";
 import { PrxLogo } from "@/components/prx/PrxLogo";
 import { Footer } from "@/components/Footer";
+import { hostBrand } from "@/components/brand/hosts";
 import {
   ExternalLink,
   ArrowRight,
@@ -100,7 +101,7 @@ export default function HomePage() {
                     </div>
 
                     <h3 className="text-lg font-bold text-zinc-950">
-                      PRX ✕ {proposal.clientBrand.name}
+                      {hostBrand(proposal.host).name} ✕ {proposal.clientBrand.name}
                     </h3>
 
                     <p className="mt-2 text-xs sm:text-sm text-zinc-600 line-clamp-2">

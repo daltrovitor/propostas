@@ -7,6 +7,7 @@ import { motoChefeProposal } from "./motochefe";
 import { juistreetProposal } from "./juistreet";
 import { rauppWakeProposal } from "./rauppwake";
 import { yunoProposal } from "./yuno";
+import { daineProposal } from "./daine";
 
 // Dicionário mestre indexado pelo subdomínio
 export const proposalsRegistry: Record<string, ProposalData> = {
@@ -22,6 +23,8 @@ export const proposalsRegistry: Record<string, ProposalData> = {
   raupp: rauppWakeProposal,
   wake: rauppWakeProposal,
   yuno: yunoProposal,
+  daine: daineProposal,
+  dainedermato: daineProposal,
 };
 
 /**

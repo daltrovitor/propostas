@@ -7,6 +7,7 @@ import {
   getAllSubdomains,
 } from "@/data/proposals";
 import { ProposalView } from "@/components/ProposalView";
+import { hostBrand } from "@/components/brand/hosts";
 
 interface ProposalPageProps {
   params: Promise<{
@@ -36,12 +37,16 @@ export async function generateMetadata({
     };
   }
 
+  // Favicon da marca que assina a proposta (PRX ou ViraWeb)
+  const icon = hostBrand(proposal.host).icon;
+
   return {
     title: proposal.meta.title,
     description: proposal.meta.description,
     icons: {
-      icon: "/icon.svg",
-      shortcut: "/icon.svg",
+      icon,
+      shortcut: icon,
+      apple: icon,
     },
     openGraph: {
       title: proposal.meta.title,

@@ -6,8 +6,10 @@ interface ViraWebLogoProps {
   href?: string;
 }
 
+export const VIRAWEB_VIEWBOX = { width: 766, height: 621 } as const;
+
 // Símbolo oficial da ViraWeb (V low-poly com seta) — viraweb.dev.br
-const VIRAWEB_POLYGONS: ReadonlyArray<{ points: string; fill: string }> = [
+export const VIRAWEB_POLYGONS: ReadonlyArray<{ points: string; fill: string }> = [
   { points: "2,93.5 84.7,239.5 223.5,92.5", fill: "#132a46" },
   { points: "307,243.5 223.5,92.5 84.7,239.5", fill: "#113f73" },
   { points: "84.7,239.5 200.5,446 307,243.5", fill: "#2965ae" },
@@ -25,6 +27,30 @@ const VIRAWEB_POLYGONS: ReadonlyArray<{ points: string; fill: string }> = [
   { points: "763,2 493,99.5 567,151.5 489,286.5 585.5,286.2", fill: "#266ca6" },
   { points: "763,2 585.5,286.2 637,344 696,242.5 764,291.5", fill: "#1958a5" },
 ];
+
+/** Vetor unitário do centro do símbolo até o centroide de cada polígono (estilhaços da abertura). */
+export const VIRAWEB_VECTORS = VIRAWEB_POLYGONS.map(({ points }) => {
+  const coords = points.split(" ").map((pair) => pair.split(",").map(Number));
+  const cx = coords.reduce((sum, [x]) => sum + x, 0) / coords.length;
+  const cy = coords.reduce((sum, [, y]) => sum + y, 0) / coords.length;
+  const dx = cx - VIRAWEB_VIEWBOX.width / 2;
+  const dy = cy - VIRAWEB_VIEWBOX.height / 2;
+  const length = Math.hypot(dx, dy) || 1;
+  return { x: dx / length, y: dy / length };
+});
+
+/** "ViraWeb" na tipografia da marca (Vira em negrito, Web em light). */
+export function ViraWebWordmarkText({ className = "" }: { className?: string }) {
+  return (
+    <span
+      className={`leading-none tracking-[-0.02em] text-[#0f1f33] ${className}`}
+      style={{ fontFamily: "var(--font-montserrat), var(--font-sans), sans-serif" }}
+    >
+      <span className="font-bold">Vira</span>
+      <span className="font-light">Web</span>
+    </span>
+  );
+}
 
 export function ViraWebMark({ className = "w-8 h-auto" }: { className?: string }) {
   return (
@@ -60,13 +86,7 @@ export function ViraWebLogo({ className = "", href = "https://viraweb.dev.br" }:
       className={`inline-flex min-h-12 items-center gap-2.5 px-2.5 py-1.5 rounded-sm hover:bg-zinc-100 transition-colors cursor-pointer ${className}`}
     >
       <ViraWebMark className="w-7 sm:w-8 h-auto" />
-      <span
-        className="text-[1.05rem] sm:text-[1.15rem] leading-none tracking-[-0.02em] text-[#0f1f33]"
-        style={{ fontFamily: "var(--font-montserrat), var(--font-sans), sans-serif" }}
-      >
-        <span className="font-bold">Vira</span>
-        <span className="font-light">Web</span>
-      </span>
+      <ViraWebWordmarkText className="text-[1.05rem] sm:text-[1.15rem]" />
     </a>
   );
 }

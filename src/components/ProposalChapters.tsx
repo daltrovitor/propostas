@@ -3,6 +3,8 @@ import React from "react";
 import type {
   ProposalChapter,
   ProposalContentBlock,
+  ProposalFinding,
+  ProposalScore,
 } from "@/data/proposals/types";
 
 interface ProposalChaptersProps {
@@ -14,6 +16,19 @@ interface ProposalChaptersProps {
 // Superfície levemente tingida com a cor da marca (5%), legível em tela e impressão
 const TINTED_SURFACE =
   "bg-[color-mix(in_srgb,var(--brand-accent)_5%,white)] border-[color-mix(in_srgb,var(--brand-accent)_22%,white)]";
+
+// Gravidade dos pontos de auditoria: cores sóbrias com contraste AA sobre branco
+const SEVERITY: Record<ProposalFinding["severity"], { label: string; color: string }> = {
+  critico: { label: "Crítico", color: "#b42318" },
+  importante: { label: "Importante", color: "#b54708" },
+  ajuste: { label: "Ajuste", color: "#475467" },
+};
+
+const SCORE_STATUS: Record<ProposalScore["status"], { label: string; color: string }> = {
+  ruim: { label: "Ruim", color: "#b42318" },
+  regular: { label: "Regular", color: "#b54708" },
+  bom: { label: "Bom", color: "#067647" },
+};
 
 function stepsGridClass(count: number): string {
   if (count === 3) return "sm:grid-cols-3";
@@ -126,7 +141,7 @@ function ContentBlock({
                 key={fact.value}
                 className="flex flex-col-reverse justify-end p-4 rounded-sm bg-zinc-50/80 border border-zinc-200/70"
               >
-                <dt className="mt-1 text-xs sm:text-sm font-medium text-zinc-700">
+                <dt className="mt-1 text-xs sm:text-sm font-medium text-zinc-700 hyphens-auto break-words">
                   {fact.label}
                 </dt>
                 <dd
@@ -303,6 +318,111 @@ function ContentBlock({
               </p>
             </article>
           ))}
+        </div>
+      );
+
+    case "findings":
+      return (
+        <ol className="space-y-4">
+          {block.items.map((item) => {
+            const severity = SEVERITY[item.severity];
+            return (
+              <li
+                key={item.title}
+                className="p-5 sm:p-6 rounded-md bg-white border border-zinc-200/80 border-l-4 print-avoid-break"
+                style={{ borderLeftColor: severity.color }}
+              >
+                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                  <span
+                    className="text-[11px] font-mono font-bold uppercase tracking-wider"
+                    style={{ color: severity.color }}
+                  >
+                    {severity.label}
+                  </span>
+                  <h3 className="text-base sm:text-lg font-bold text-zinc-950 text-balance">
+                    {item.title}
+                  </h3>
+                </div>
+                <dl className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+                  <div>
+                    <dt className="text-[11px] font-mono font-semibold uppercase tracking-wider text-zinc-500">
+                      O que encontramos
+                    </dt>
+                    <dd className="mt-1 text-sm sm:text-[15px] text-zinc-700 leading-relaxed text-pretty">
+                      {item.evidence}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt
+                      className="text-[11px] font-mono font-semibold uppercase tracking-wider"
+                      style={{ color: accentColor }}
+                    >
+                      Como resolvemos
+                    </dt>
+                    <dd className="mt-1 text-sm sm:text-[15px] text-zinc-900 leading-relaxed text-pretty">
+                      {item.fix}
+                    </dd>
+                  </div>
+                </dl>
+              </li>
+            );
+          })}
+        </ol>
+      );
+
+    case "scores":
+      return (
+        <div className="print-avoid-break">
+          <dl className="grid grid-cols-2 gap-3 sm:gap-4">
+            {block.items.map((score) => {
+              const status = SCORE_STATUS[score.status];
+              return (
+                <div
+                  key={score.label}
+                  className="flex flex-col-reverse justify-end p-4 sm:p-5 rounded-sm bg-zinc-50/80 border border-zinc-200/70"
+                >
+                  <dt className="mt-2 text-xs sm:text-sm font-semibold text-zinc-800">
+                    {score.label}
+                    {score.detail && (
+                      <span className="block mt-0.5 text-[11px] sm:text-xs font-normal text-zinc-500">
+                        {score.detail}
+                      </span>
+                    )}
+                  </dt>
+                  <dd>
+                    <span className="flex flex-wrap items-baseline gap-x-2">
+                      <span
+                        className="text-2xl sm:text-4xl font-extrabold tracking-tight"
+                        style={{ color: status.color }}
+                      >
+                        {score.value}
+                      </span>
+                      <span
+                        className="text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider"
+                        style={{ color: status.color }}
+                      >
+                        {status.label}
+                      </span>
+                    </span>
+                    {typeof score.bar === "number" && (
+                      <span aria-hidden="true" className="mt-3 block h-1 w-full rounded-sm bg-zinc-200 overflow-hidden">
+                        <span
+                          className="block h-1 rounded-sm"
+                          style={{
+                            width: `${Math.max(0, Math.min(100, score.bar))}%`,
+                            backgroundColor: status.color,
+                          }}
+                        />
+                      </span>
+                    )}
+                  </dd>
+                </div>
+              );
+            })}
+          </dl>
+          {block.caption && (
+            <p className="mt-3 text-sm text-zinc-500 leading-relaxed">{block.caption}</p>
+          )}
         </div>
       );
 

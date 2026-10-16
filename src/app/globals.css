@@ -46,6 +46,10 @@ label[for],
   cursor: pointer !important;
 }
 
+button:disabled {
+  cursor: not-allowed !important;
+}
+
 /* Scrollbar refinada e arquitetônica */
 ::-webkit-scrollbar {
   width: 6px;
@@ -180,9 +184,48 @@ html.intro-lock {
   animation-delay: var(--d, 0ms);
 }
 
+/* ==========================================================================
+   Abertura ViraWeb ✕ Marca
+   Palco branco e cortina (viraweb.dev.br) + logo vetorial escrita letra a letra
+   ========================================================================== */
+@keyframes vw-glyph {
+  from { transform: translateY(56px); }
+  to { transform: none; }
+}
+@keyframes vw-caption {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes vw-rule {
+  from { transform: scaleX(0); }
+  to { transform: none; }
+}
+@keyframes vw-curtain {
+  to { transform: translateY(-100%); }
+}
+
+.vw-glyph { animation-name: vw-glyph; animation-duration: 0.85s; }
+.vw-caption { animation-name: vw-caption; animation-duration: 0.7s; }
+.vw-rule {
+  animation-name: vw-rule;
+  animation-duration: 0.9s;
+  animation-timing-function: var(--ease-in-out-quart);
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+
+.vw-intro.is-exiting {
+  animation: vw-curtain 0.9s var(--ease-in-out-quart) forwards;
+}
+.vw-intro.is-exiting .vw-intro-stage {
+  animation: pi-lift 0.9s var(--ease-in-out-quart) forwards;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .prx-intro,
   .prx-intro *,
+  .vw-intro,
+  .vw-intro *,
   .hero-word.is-revealing {
     animation-duration: 1ms !important;
     animation-delay: 0ms !important;

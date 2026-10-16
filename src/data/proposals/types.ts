@@ -38,6 +38,66 @@ export interface ProposalCard {
   text: string;
 }
 
+/** Ponto de auditoria: o que foi encontrado (com a prova) e como será corrigido. */
+export interface ProposalFinding {
+  severity: "critico" | "importante" | "ajuste";
+  title: string;
+  evidence: string;
+  fix: string;
+}
+
+/** Nota medida (Lighthouse, Core Web Vitals) com leitura qualitativa. */
+export interface ProposalScore {
+  value: string;
+  label: string;
+  detail?: string;
+  status: "ruim" | "regular" | "bom";
+  bar?: number; // 0–100: preenchimento da régua sob o valor
+}
+
+/**
+ * Logo vetorial da marca parceira, separada por glifo para a animação de abertura.
+ * Cada string é o `d` de um glifo (contorno e miolos juntos, regra nonzero).
+ */
+export interface PartnerLogoVector {
+  width: number;
+  height: number;
+  color: string;
+  strokeWidth?: number;
+  wordmark: string[];
+  rule?: { x1: number; x2: number; y: number };
+  caption?: string[];
+}
+
+/** Marca que assina a proposta (abertura, cabeçalho, rodapé e favicon). */
+export type ProposalHost = "prx" | "viraweb";
+
+export interface CalculatorService {
+  id: string;
+  name: string;
+  description: string;
+  benefit?: string; // O que o módulo resolve para este cliente
+  setup: number; // R$ inteiros
+  monthly: number; // R$ inteiros por mês
+}
+
+export interface CalculatorDiscountTier {
+  minItems: number;
+  setupRate: number; // 0.1 = 10%
+  monthlyRate: number;
+  label: string;
+}
+
+export interface ProposalCalculator {
+  label?: string;
+  title: string;
+  description?: string;
+  packageName: string;
+  services: CalculatorService[];
+  tiers: CalculatorDiscountTier[];
+  footnote?: string;
+}
+
 /**
  * Blocos de conteúdo narrativo de um capítulo da proposta.
  * União discriminada por `type`: cada bloco tem uma renderização própria.
@@ -59,6 +119,8 @@ export type ProposalContentBlock =
   | { type: "table"; columns: string[]; rows: string[][]; caption?: string }
   | { type: "steps"; items: ProposalTitledItem[]; title?: string; intro?: string }
   | { type: "cards"; items: ProposalCard[] }
+  | { type: "findings"; items: ProposalFinding[] }
+  | { type: "scores"; items: ProposalScore[]; caption?: string }
   | { type: "feature"; title: string; label?: string; description?: string; caption?: string };
 
 export interface ProposalChapter {
@@ -84,8 +146,10 @@ export interface ProposalClosing {
 
 export interface ProposalData {
   subdomain: string;
+  host?: ProposalHost; // Padrão: "prx"
   clientBrand: {
     name: string;
+    logoVector?: PartnerLogoVector; // Logo vetorial animada letra a letra na abertura
     logoSvg?: string;
     logoPng?: string; // Imagem raster da logo (PNG ou WebP) servida a partir de /public
     logoPngOnDark?: string; // Versão clara da logo para a abertura em fundo escuro
@@ -112,6 +176,10 @@ export interface ProposalData {
     headline: string;
     subheadline: string;
     dateFormatted: string;
+    primaryCta?: string; // Padrão: "Formalizar Parceria"
+    secondaryCta?: string; // Padrão: "Ver Escopo e Detalhes"
+    panelLabel?: string; // Rótulo do cartão lateral (padrão: "Ecossistema")
+    panelStatus?: string; // Selo do cartão lateral (padrão: "Ativa")
   };
   executiveSummary: {
     label?: string;
@@ -137,6 +205,7 @@ export interface ProposalData {
     plans: ProposalPlan[];
     guaranteeText?: string;
   };
+  calculator?: ProposalCalculator;
   closing?: ProposalClosing;
   whatsapp: {
     phone: string;

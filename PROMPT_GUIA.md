@@ -72,6 +72,24 @@ Coloque a animação de entrada PRX ✕ Albert Einstein e aplique o modelo padr�
 
 ---
 
+## 🔷 Propostas assinadas pela ViraWeb (diagnóstico de site)
+
+Além das parcerias PRX, o projeto também hospeda propostas da **ViraWeb** (ex.: `daine.viraweb.dev.br`). Basta definir `host: "viraweb"` nos dados da proposta:
+
+- **Abertura ViraWeb ✕ Marca**: palco branco do viraweb.dev.br, símbolo montado por estilhaços e a logo da marca escrita letra a letra. Para isso, a logo entra como vetor em `clientBrand.logoVector` (um `d` por glifo, gerado a partir do SVG oficial da marca).
+- **Cabeçalho, rodapé e favicon** da ViraWeb no lugar dos da PRX.
+- **Blocos de auditoria**: `findings` (crítico / importante / ajuste, com prova e correção) e `scores` (notas do Lighthouse).
+- **Calculadora do Pacote ViraWeb** em `calculator`: os módulos e as faixas de desconto progressivo (2–3 módulos: 10% no setup; 4 módulos: 20% no setup + 15% na mensalidade), com aprovação pré-formatada no WhatsApp do pacote.
+
+Exemplo de prompt:
+
+```text
+Faça uma proposta ViraWeb no subdomínio "nome" para [marca]. Analise o site [URL],
+liste os problemas com prova, mostre o Pacote ViraWeb e coloque a calculadora.
+```
+
+---
+
 ## 🌐 Como funciona o roteamento por Subdomínio?
 
 - **Em Produção na Vercel**:

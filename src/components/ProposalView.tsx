@@ -6,7 +6,10 @@ import { ProposalData } from "@/data/proposals/types";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { PrxPartnerIntro } from "./prx/PrxPartnerIntro";
+import { ViraWebPartnerIntro } from "./viraweb/ViraWebPartnerIntro";
 import { ProposalChapters } from "./ProposalChapters";
+import { ProposalCalculator } from "./ProposalCalculator";
+import { hostBrand } from "./brand/hosts";
 import {
   CheckCircle2,
   ArrowRight,
@@ -31,13 +34,16 @@ export function ProposalView({ proposal }: ProposalViewProps) {
   const hasChapters = !!proposal.chapters && proposal.chapters.length > 0;
   const hasScope = !!proposal.scope && proposal.scope.length > 0;
   const detailsAnchor = hasScope ? "#escopo" : "#proposta";
+  const host = proposal.host ?? "prx";
+  const brand = hostBrand(host);
+  const isViraWeb = host === "viraweb";
 
   const triggerConfetti = () => {
     confetti({
       particleCount: 90,
       spread: 80,
       origin: { y: 0.6 },
-      colors: [proposal.accentColor, "#7607FD", "#0BD9FD", "#ffffff"],
+      colors: [proposal.accentColor, ...brand.confetti],
     });
   };
 
@@ -50,8 +56,20 @@ export function ProposalView({ proposal }: ProposalViewProps) {
 
   return (
     <>
-      {/* Intro Animada Mandatória: PRX ✕ Marca */}
-      {!introFinished && (
+      {/* Intro Animada Mandatória: ViraWeb ✕ Marca ou PRX ✕ Marca */}
+      {!introFinished && isViraWeb && (
+        <ViraWebPartnerIntro
+          partnerName={proposal.clientBrand.name}
+          partnerLogo={proposal.clientBrand.logoVector}
+          partnerCaption={proposal.clientBrand.tagline}
+          title={proposal.intro?.title}
+          tagline={proposal.intro?.tagline}
+          quote={proposal.intro?.quote ?? proposal.hero.headline}
+          onExitStart={() => setHeroRevealing(true)}
+          onComplete={() => setIntroFinished(true)}
+        />
+      )}
+      {!introFinished && !isViraWeb && (
         <PrxPartnerIntro
           partnerName={proposal.clientBrand.name}
           partnerLogoSvg={proposal.clientBrand.logoSvg}
@@ -78,7 +96,9 @@ export function ProposalView({ proposal }: ProposalViewProps) {
       >
         {/* Cabeçalho */}
         <Header
+          host={host}
           partnerName={proposal.clientBrand.name}
+          partnerLogoVector={proposal.clientBrand.logoVector}
           partnerLogoSvg={proposal.clientBrand.logoSvg}
           partnerLogoPng={proposal.clientBrand.logoPng}
           partnerLogoWidth={proposal.clientBrand.logoWidth}
@@ -88,6 +108,8 @@ export function ProposalView({ proposal }: ProposalViewProps) {
           dateFormatted={proposal.hero.dateFormatted}
           whatsappPhone={proposal.whatsapp.phone}
           whatsappMessage={proposal.whatsapp.defaultMessage}
+          ctaLabel={isViraWeb ? "Aprovar Proposta" : undefined}
+          ctaShortLabel={isViraWeb ? "Aprovar" : undefined}
         />
 
         <main className="flex-1">
@@ -137,7 +159,7 @@ export function ProposalView({ proposal }: ProposalViewProps) {
                       className="inline-flex items-center justify-center gap-2.5 px-6 py-4 min-h-12 text-sm sm:text-base font-bold text-white rounded-sm cursor-pointer shadow-sm hover:opacity-95 active:scale-[0.99] transition-all"
                     >
                       <MessageCircle className="w-5 h-5" />
-                      <span>Formalizar Parceria</span>
+                      <span>{proposal.hero.primaryCta ?? "Formalizar Parceria"}</span>
                       <ArrowRight className="w-4 h-4" />
                     </button>
 
@@ -145,7 +167,7 @@ export function ProposalView({ proposal }: ProposalViewProps) {
                       href={detailsAnchor}
                       className="inline-flex items-center justify-center gap-2 px-5 py-4 min-h-12 text-sm sm:text-base font-medium text-zinc-700 hover:text-zinc-950 bg-zinc-100 hover:bg-zinc-200/80 border border-zinc-200/80 rounded-sm cursor-pointer transition-colors"
                     >
-                      <span>Ver Escopo e Detalhes</span>
+                      <span>{proposal.hero.secondaryCta ?? "Ver Escopo e Detalhes"}</span>
                     </a>
                   </div>
                 </div>
@@ -156,14 +178,14 @@ export function ProposalView({ proposal }: ProposalViewProps) {
                     <div className="flex items-center justify-between pb-5 border-b border-zinc-200/60">
                       <div>
                         <span className="text-[11px] font-mono uppercase tracking-wider text-zinc-500">
-                          Ecossistema
+                          {proposal.hero.panelLabel ?? "Ecossistema"}
                         </span>
                         <p className="text-base font-bold text-zinc-900 mt-0.5">
-                          PRX ✕ {proposal.clientBrand.name}
+                          {brand.name} ✕ {proposal.clientBrand.name}
                         </p>
                       </div>
                       <span className="px-2.5 py-1 text-xs font-semibold rounded-sm bg-emerald-50 text-emerald-700 border border-emerald-200/60">
-                        Ativa
+                        {proposal.hero.panelStatus ?? "Ativa"}
                       </span>
                     </div>
 
@@ -288,7 +310,7 @@ export function ProposalView({ proposal }: ProposalViewProps) {
                           {pillar.number}
                         </span>
                         {pillar.tag && (
-                          <span className="text-[11px] font-mono text-zinc-500 bg-zinc-100 px-2 py-0.5 rounded-sm">
+                          <span className="text-[11px] font-mono text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded-sm">
                             {pillar.tag}
                           </span>
                         )}
@@ -389,6 +411,17 @@ export function ProposalView({ proposal }: ProposalViewProps) {
               </div>
             </div>
           </section>
+          )}
+
+          {/* Calculadora do pacote: preço conforme os módulos escolhidos */}
+          {proposal.calculator && (
+            <ProposalCalculator
+              calculator={proposal.calculator}
+              accentColor={proposal.accentColor}
+              whatsappPhone={proposal.whatsapp.phone}
+              messageIntro={proposal.whatsapp.defaultMessage}
+              onApprove={triggerConfetti}
+            />
           )}
 
           {/* Seção de Investimento e Planos */}
@@ -547,7 +580,7 @@ export function ProposalView({ proposal }: ProposalViewProps) {
         </main>
 
         {/* Rodapé Mandatório Desenvolvido por ViraWeb */}
-        <Footer partnerName={proposal.clientBrand.name} />
+        <Footer partnerName={proposal.clientBrand.name} host={host} />
       </div>
     </>
   );
