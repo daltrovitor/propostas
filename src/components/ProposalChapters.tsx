@@ -6,11 +6,16 @@ import type {
   ProposalFinding,
   ProposalScore,
 } from "@/data/proposals/types";
+import { PortfolioShowcase } from "./portfolio/PortfolioShowcase";
+
+// Dados da prévia do portfólio usados pelo bloco "showcase"
+type ShowcaseContext = Omit<React.ComponentProps<typeof PortfolioShowcase>, "accentColor" | "caption">;
 
 interface ProposalChaptersProps {
   chapters: ProposalChapter[];
   accentColor: string;
   id?: string;
+  showcase?: ShowcaseContext;
 }
 
 // Superfície levemente tingida com a cor da marca (5%), legível em tela e impressão
@@ -39,9 +44,11 @@ function stepsGridClass(count: number): string {
 function ContentBlock({
   block,
   accentColor,
+  showcase,
 }: {
   block: ProposalContentBlock;
   accentColor: string;
+  showcase?: ShowcaseContext;
 }) {
   switch (block.type) {
     case "paragraph":
@@ -455,10 +462,15 @@ function ContentBlock({
           )}
         </div>
       );
+
+    case "showcase":
+      return showcase ? (
+        <PortfolioShowcase {...showcase} accentColor={accentColor} caption={block.caption} />
+      ) : null;
   }
 }
 
-export function ProposalChapters({ chapters, accentColor, id }: ProposalChaptersProps) {
+export function ProposalChapters({ chapters, accentColor, id, showcase }: ProposalChaptersProps) {
   return (
     <section id={id} className="border-b border-zinc-200/80 bg-white">
       {chapters.map((chapter, idx) => {
@@ -501,7 +513,7 @@ export function ProposalChapters({ chapters, accentColor, id }: ProposalChapters
               {/* Coluna narrativa dominante (61.8%) */}
               <div className="lg:col-span-7 space-y-6 sm:space-y-7 min-w-0">
                 {chapter.blocks.map((block, blockIdx) => (
-                  <ContentBlock key={blockIdx} block={block} accentColor={accentColor} />
+                  <ContentBlock key={blockIdx} block={block} accentColor={accentColor} showcase={showcase} />
                 ))}
               </div>
             </div>

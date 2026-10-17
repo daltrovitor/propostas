@@ -1,6 +1,14 @@
 // Hello World
 import { NextRequest, NextResponse } from "next/server";
 import { getProposalBySubdomain } from "./data/proposals";
+import type { ProposalData } from "./data/proposals/types";
+
+// A prévia do portfólio fica no próprio subdomínio (ex.: fullcriative.viraweb.dev.br/previa);
+// qualquer outro caminho continua abrindo a proposta
+function proposalRoute(subdomain: string, proposal: ProposalData, pathname: string): string {
+  const subpage = proposal.portfolio && pathname === proposal.portfolio.path ? pathname : "";
+  return `/propostas/${subdomain.toLowerCase()}${subpage}`;
+}
 
 export function middleware(req: NextRequest) {
   const url = req.nextUrl;
@@ -17,10 +25,9 @@ export function middleware(req: NextRequest) {
 
   // 1. Verificar se há parâmetro explícito de subdomínio via query (ótimo para testes locais e previews)
   const querySubdomain = url.searchParams.get("subdomain");
-  if (querySubdomain && getProposalBySubdomain(querySubdomain)) {
-    return NextResponse.rewrite(
-      new URL(`/propostas/${querySubdomain.toLowerCase()}`, req.url)
-    );
+  const queryProposal = querySubdomain ? getProposalBySubdomain(querySubdomain) : null;
+  if (querySubdomain && queryProposal) {
+    return NextResponse.rewrite(new URL(proposalRoute(querySubdomain, queryProposal, url.pathname), req.url));
   }
 
   // 2. Extrair subdomínio a partir do host (ex: queirozsilveira.seusite.com, boticario.localhost:3000)
@@ -45,9 +52,7 @@ export function middleware(req: NextRequest) {
     const proposal = getProposalBySubdomain(extractedSubdomain);
     if (proposal) {
       // Reescreve a URL internamente para a página da proposta sem alterar a barra de endereços do cliente
-      return NextResponse.rewrite(
-        new URL(`/propostas/${extractedSubdomain.toLowerCase()}`, req.url)
-      );
+      return NextResponse.rewrite(new URL(proposalRoute(extractedSubdomain, proposal, url.pathname), req.url));
     }
   }
 

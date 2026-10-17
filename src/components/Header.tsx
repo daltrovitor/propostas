@@ -100,7 +100,10 @@ export function Header({
               <PartnerLogoSvg
                 logo={partnerLogoVector}
                 title={partnerName}
-                className="h-7 sm:h-11 w-auto max-w-full"
+                part={partnerLogoVector.headerPart === "mark" ? "mark" : "full"}
+                className={`w-auto max-w-full ${
+                  partnerLogoVector.headerPart === "mark" ? "h-7 sm:h-9" : "h-7 sm:h-11"
+                }`}
               />
             ) : partnerLogoSvg ? (
               <div

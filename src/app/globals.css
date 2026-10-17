@@ -204,7 +204,18 @@ html.intro-lock {
   to { transform: translateY(-100%); }
 }
 
+@keyframes vw-glyph-in {
+  from { opacity: 0; transform: translate(var(--gx, 0px), var(--gy, 0px)); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes vw-wipe {
+  from { clip-path: inset(100% 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
 .vw-glyph { animation-name: vw-glyph; animation-duration: 0.85s; }
+.vw-glyph-in { animation-name: vw-glyph-in; animation-duration: 0.95s; }
+.vw-wipe { animation-name: vw-wipe; animation-duration: 1.1s; }
 .vw-caption { animation-name: vw-caption; animation-duration: 0.7s; }
 .vw-rule {
   animation-name: vw-rule;

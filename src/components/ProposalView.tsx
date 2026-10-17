@@ -9,6 +9,7 @@ import { PrxPartnerIntro } from "./prx/PrxPartnerIntro";
 import { ViraWebPartnerIntro } from "./viraweb/ViraWebPartnerIntro";
 import { ProposalChapters } from "./ProposalChapters";
 import { ProposalCalculator } from "./ProposalCalculator";
+import { ProposalOffer } from "./ProposalOffer";
 import { hostBrand } from "./brand/hosts";
 import {
   CheckCircle2,
@@ -62,6 +63,7 @@ export function ProposalView({ proposal }: ProposalViewProps) {
           partnerName={proposal.clientBrand.name}
           partnerLogo={proposal.clientBrand.logoVector}
           partnerCaption={proposal.clientBrand.tagline}
+          eyebrow={proposal.intro?.eyebrow}
           title={proposal.intro?.title}
           tagline={proposal.intro?.tagline}
           quote={proposal.intro?.quote ?? proposal.hero.headline}
@@ -265,6 +267,15 @@ export function ProposalView({ proposal }: ProposalViewProps) {
               id="proposta"
               chapters={proposal.chapters}
               accentColor={proposal.accentColor}
+              showcase={
+                proposal.portfolio && {
+                  portfolio: proposal.portfolio,
+                  brandName: proposal.clientBrand.name,
+                  logo: proposal.clientBrand.logoVector,
+                  subdomain: proposal.subdomain,
+                  siteLabel: `${proposal.subdomain}.${brand.siteLabel}${proposal.portfolio.path}`,
+                }
+              }
             />
           )}
 
@@ -417,6 +428,17 @@ export function ProposalView({ proposal }: ProposalViewProps) {
           {proposal.calculator && (
             <ProposalCalculator
               calculator={proposal.calculator}
+              accentColor={proposal.accentColor}
+              whatsappPhone={proposal.whatsapp.phone}
+              messageIntro={proposal.whatsapp.defaultMessage}
+              onApprove={triggerConfetti}
+            />
+          )}
+
+          {/* Oferta de preço único com pagamento por Pix ou cartão */}
+          {proposal.offer && (
+            <ProposalOffer
+              offer={proposal.offer}
               accentColor={proposal.accentColor}
               whatsappPhone={proposal.whatsapp.phone}
               messageIntro={proposal.whatsapp.defaultMessage}
