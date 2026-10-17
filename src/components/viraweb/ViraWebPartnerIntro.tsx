@@ -5,6 +5,7 @@ import React, { useCallback, useEffect, useId, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import type { PartnerLogoVector } from "@/data/proposals/types";
 import { VIRAWEB_POLYGONS, VIRAWEB_VECTORS, VIRAWEB_VIEWBOX } from "./ViraWebLogo";
+import { LogoGradient, logoGlyph } from "./PartnerLogoSvg";
 
 interface ViraWebPartnerIntroProps {
   partnerName: string;
@@ -24,7 +25,7 @@ const EXIT_DURATION = 900;
 const MARK_AT = 850; // estilhaços do símbolo ViraWeb
 const WORD_AT = 1350; // "ViraWeb" sobe pela máscara
 const X_AT = 1250; // conector ✕
-const GLYPHS_AT = 1500; // "daíne vargas" letra a letra
+const GLYPHS_AT = 1500; // logo da parceira, glifo a glifo
 const GLYPH_STEP = 60;
 
 const INK = "#0f1f33";
@@ -105,6 +106,7 @@ export function ViraWebPartnerIntro({
 
   const introTitle = title ?? `ViraWeb ✕ ${partnerName}`;
   const clipWordmark = `vw-clip-${uid}`;
+  const gradientId = `vw-grad-${uid}`;
   const glyphCount = partnerLogo?.wordmark.length ?? 0;
   const ruleAt = GLYPHS_AT + glyphCount * GLYPH_STEP + 120;
   const captionAt = ruleAt + 260;
@@ -257,13 +259,20 @@ export function ViraWebPartnerIntro({
                 <svg
                   viewBox={`0 0 ${partnerLogo.width} ${partnerLogo.height}`}
                   className="w-full h-auto overflow-visible"
+                  style={partnerLogo.introWidth ? { maxWidth: partnerLogo.introWidth } : undefined}
                   role="img"
                   aria-label={partnerName}
                 >
                   <defs>
                     <clipPath id={clipWordmark}>
-                      <rect x="-4" y="-4" width={partnerLogo.width + 8} height={(partnerLogo.rule?.y ?? partnerLogo.height) - 2} />
+                      <rect
+                        x="-4"
+                        y="-4"
+                        width={partnerLogo.width + 8}
+                        height={partnerLogo.maskBottom ?? (partnerLogo.rule?.y ?? partnerLogo.height) - 2}
+                      />
                     </clipPath>
+                    {partnerLogo.gradient && <LogoGradient id={gradientId} gradient={partnerLogo.gradient} />}
                   </defs>
                   <g clipPath={`url(#${clipWordmark})`}>
                     <g
@@ -271,14 +280,26 @@ export function ViraWebPartnerIntro({
                       stroke={partnerLogo.color}
                       strokeWidth={partnerLogo.strokeWidth ?? 0}
                     >
-                      {partnerLogo.wordmark.map((d, idx) => (
-                        <path
-                          key={d}
-                          d={d}
-                          className="pi vw-glyph"
-                          style={at(GLYPHS_AT + idx * GLYPH_STEP)}
-                        />
-                      ))}
+                      {partnerLogo.wordmark.map((raw, idx) => {
+                        const glyph = logoGlyph(raw);
+                        const fill = glyph.gradient ? `url(#${gradientId})` : glyph.fill;
+                        const delay = GLYPHS_AT + idx * GLYPH_STEP;
+                        // Sobe pela máscara (padrão), desliza de `from` ou é desenhada em diagonal
+                        const motion = glyph.reveal === "wipe" ? "vw-wipe" : glyph.from ? "vw-glyph-in" : "vw-glyph";
+                        const style = glyph.from
+                          ? at(delay, { "--gx": `${glyph.from.x}px`, "--gy": `${glyph.from.y}px` })
+                          : at(delay);
+                        return (
+                          <path
+                            key={glyph.d}
+                            d={glyph.d}
+                            fill={fill}
+                            stroke={fill}
+                            className={`pi ${motion}`}
+                            style={style}
+                          />
+                        );
+                      })}
                     </g>
                   </g>
                   {partnerLogo.rule && (

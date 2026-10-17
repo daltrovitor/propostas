@@ -19,16 +19,17 @@ export interface CalculatorQuote {
 }
 
 /**
- * Formata reais inteiros como "R$ 1.600,00" sem depender do ICU do ambiente,
+ * Formata reais como "R$ 1.797,70" sem depender do ICU do ambiente,
  * para o servidor e o navegador renderizarem exatamente o mesmo texto.
  * O espaço após "R$" é inquebrável: o símbolo nunca se separa do valor.
  */
 export function formatBRL(value: number): string {
   const sign = value < 0 ? "-" : "";
-  const integer = Math.round(Math.abs(value))
+  const cents = Math.round(Math.abs(value) * 100);
+  const integer = Math.floor(cents / 100)
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  return `${sign}R$\u00a0${integer},00`;
+  return `${sign}R$\u00a0${integer},${String(cents % 100).padStart(2, "0")}`;
 }
 
 /** Faixa de desconto aplicável: a de maior `minItems` que a seleção alcança. */

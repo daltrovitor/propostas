@@ -55,6 +55,31 @@ export interface ProposalScore {
   bar?: number; // 0–100: preenchimento da régua sob o valor
 }
 
+/** Peça da logo com cor ou entrada própria na abertura. */
+export interface PartnerLogoGlyph {
+  d: string;
+  fill?: string; // Padrão: color da logo
+  gradient?: boolean; // Preenche com o degradê da logo
+  from?: { x: number; y: number }; // Desliza deste deslocamento em vez de subir pela máscara
+  reveal?: "wipe"; // Desenhada do canto inferior esquerdo ao superior direito
+}
+
+export interface PartnerLogoGradient {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+  stops: { offset: number; color: string }[];
+}
+
+/** Recorte do viewBox para mostrar só uma parte da logo. */
+export interface PartnerLogoBox {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 /**
  * Logo vetorial da marca parceira, separada por glifo para a animação de abertura.
  * Cada string é o `d` de um glifo (contorno e miolos juntos, regra nonzero).
@@ -64,9 +89,15 @@ export interface PartnerLogoVector {
   height: number;
   color: string;
   strokeWidth?: number;
-  wordmark: string[];
+  wordmark: (string | PartnerLogoGlyph)[];
   rule?: { x1: number; x2: number; y: number };
   caption?: string[];
+  gradient?: PartnerLogoGradient;
+  maskBottom?: number; // Base da máscara dos glifos (padrão: filete ou altura total)
+  introWidth?: number; // Largura máxima na abertura, em px
+  markBox?: PartnerLogoBox; // Só o símbolo (wordmark)
+  captionBox?: PartnerLogoBox; // Só a legenda
+  headerPart?: "mark" | "full"; // O que o cabeçalho mostra (padrão: full)
 }
 
 /** Marca que assina a proposta (abertura, cabeçalho, rodapé e favicon). */
@@ -86,6 +117,50 @@ export interface CalculatorDiscountTier {
   setupRate: number; // 0.1 = 10%
   monthlyRate: number;
   label: string;
+}
+
+/** Oferta de preço único: valor cheio, valor desta proposta e formas de pagamento. */
+export interface ProposalOffer {
+  label?: string;
+  title: string;
+  description?: string;
+  name: string;
+  priceFrom: number; // R$ com centavos (ex.: 1797.7)
+  price: number;
+  payment: string[];
+  includes: string[];
+  ctaText?: string;
+  footnote?: string;
+}
+
+/** Vídeo do portfólio: arquivo completo, loop curto sem som e pôster. */
+export interface PortfolioVideo {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  src: string;
+  loop: string;
+  poster: string;
+  duration: string; // "0:54"
+}
+
+/** Página de prévia (ex.: /previa): exemplo do site que a proposta entrega. */
+export interface PortfolioPreview {
+  path: string;
+  icon?: string; // Favicon da prévia (padrão: ViraWeb)
+  owner: string;
+  role: string;
+  title: string;
+  description: string;
+  headline: string;
+  headlineHighlight?: string; // Trecho da headline no degradê da marca
+  subheadline: string;
+  videos: PortfolioVideo[];
+  services: ProposalTitledItem[];
+  process: ProposalTitledItem[];
+  about: { title: string; paragraphs: string[] };
+  contact: { title: string; text: string; cta: string; note?: string; message: string };
 }
 
 export interface ProposalCalculator {
@@ -121,7 +196,8 @@ export type ProposalContentBlock =
   | { type: "cards"; items: ProposalCard[] }
   | { type: "findings"; items: ProposalFinding[] }
   | { type: "scores"; items: ProposalScore[]; caption?: string }
-  | { type: "feature"; title: string; label?: string; description?: string; caption?: string };
+  | { type: "feature"; title: string; label?: string; description?: string; caption?: string }
+  | { type: "showcase"; caption?: string }; // Janela com a prévia do portfólio (proposal.portfolio)
 
 export interface ProposalChapter {
   number?: string;
@@ -160,6 +236,7 @@ export interface ProposalData {
     tagline?: string;
   };
   intro?: {
+    eyebrow?: string; // Sobretítulo da abertura ViraWeb (padrão: "Diagnóstico & Proposta Digital")
     title?: string; // Título da abertura (padrão: "<Marca> ✕ PRX")
     tagline?: string; // Linha mono abaixo do título
     quote?: string; // Frase de efeito (padrão: hero.headline)
@@ -206,6 +283,8 @@ export interface ProposalData {
     guaranteeText?: string;
   };
   calculator?: ProposalCalculator;
+  offer?: ProposalOffer;
+  portfolio?: PortfolioPreview;
   closing?: ProposalClosing;
   whatsapp: {
     phone: string;

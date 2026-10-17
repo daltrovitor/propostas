@@ -88,6 +88,21 @@ Faça uma proposta ViraWeb no subdomínio "nome" para [marca]. Analise o site [U
 liste os problemas com prova, mostre o Pacote ViraWeb e coloque a calculadora.
 ```
 
+### Preço único e prévia do site (ex.: `fullcriative.viraweb.dev.br`)
+
+- **Preço único** em `offer`: valor cheio riscado, valor da proposta (aceita centavos, ex.: `997.9`) e um botão por forma de pagamento (ex.: Pix e cartão), cada um com a aprovação pronta no WhatsApp. Substitui a calculadora quando a proposta tem um item só.
+- **Prévia do site** em `portfolio`: página de exemplo servida em `/previa` no próprio subdomínio, com a logo da marca e os vídeos do cliente. O bloco `{ type: "showcase" }` mostra essa prévia numa janela de navegador dentro da proposta, com o botão "Abrir a prévia completa".
+- **Vídeos** ficam em `public/portfolio/<subdominio>/`: o vídeo completo recomprimido (720 × 1280, H.264, `+faststart`), um loop de 6 s sem som (480 px) que toca enquanto aparece na tela e um pôster `.webp`. O completo só carrega quando a pessoa dá o play.
+- **Logos com degradê**: em `logoVector`, cada peça pode ter `gradient: true`, entrar deslizando (`from`) ou ser desenhada em diagonal (`reveal: "wipe"`); `markBox` e `captionBox` recortam o símbolo e o nome para o cabeçalho e o rodapé.
+
+Exemplo de prompt:
+
+```text
+Faça uma proposta no subdomínio "nome" no modelo da Daíne, com a animação de entrada
+com esta logo e a da ViraWeb, uma prévia do portfólio com estes vídeos e o preço
+de R$ X por R$ Y no Pix ou cartão.
+```
+
 ---
 
 ## 🌐 Como funciona o roteamento por Subdomínio?
